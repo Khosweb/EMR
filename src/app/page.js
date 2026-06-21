@@ -510,9 +510,9 @@ export default function App() {
           <div className="w-full flex flex-col gap-6">
             
             {/* 1. Patient Profile Summary Panel - Pink Highlights */}
-            <div className="bg-white border border-rose-100 rounded-2xl p-6 flex flex-col md:flex-row md:items-start justify-between gap-6 relative shadow-sm shadow-rose-100/30">
+            <div className="bg-white/80 backdrop-blur-md border border-rose-100/80 rounded-3xl p-6 flex flex-col md:flex-row md:items-start justify-between gap-6 relative shadow-md shadow-rose-200/5 transition-all duration-300 hover:shadow-lg hover:shadow-rose-200/10">
               <div className="flex flex-col md:flex-row items-center md:items-start gap-4">
-                <div className="w-16 h-16 rounded-2xl bg-rose-50 flex items-center justify-center border border-rose-100 text-rose-500 font-extrabold text-2xl">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-rose-50 to-pink-50 flex items-center justify-center border border-rose-100/80 text-rose-500 font-extrabold text-2xl shadow-inner shadow-rose-100/30">
                   {patientData.patient.sex === '1' ? '👨' : '👩'}
                 </div>
                 <div className="flex flex-col gap-1 items-center md:items-start text-center md:text-left">
@@ -545,21 +545,21 @@ export default function App() {
 
               {/* Drug Allergy Warnings - Soft Blinking Warning block */}
               {patientData.allergies && patientData.allergies.length > 0 ? (
-                <div className="bg-rose-50 border border-rose-200 p-4 rounded-xl flex items-start gap-3 md:max-w-md w-full md:w-auto self-stretch md:self-auto shadow-sm">
-                  <div className="text-rose-600 mt-0.5">
+                <div className="bg-rose-50 border border-rose-200 p-4.5 rounded-2xl flex items-start gap-3 md:max-w-md w-full md:w-auto self-stretch md:self-auto shadow-sm hover:shadow-md transition-shadow duration-300 ring-1 ring-rose-200/50">
+                  <div className="text-rose-600 mt-0.5 animate-pulse">
                     <AlertIcon />
                   </div>
                   <div>
-                    <h4 className="text-pink-600 font-extrabold text-xs tracking-wider uppercase">ระวัง: ประวัติแพ้ยา (Drug Allergy)</h4>
+                    <h4 className="text-pink-700 font-extrabold text-xs tracking-wider uppercase">ระวัง: ประวัติแพ้ยา (Drug Allergy)</h4>
                     {patientData.allergies.map((a, i) => (
-                      <div key={i} className="mt-1 text-xs text-pink-600 font-bold leading-relaxed">
-                        💊 {a.agent} → <span className="text-rose-900 font-medium">{a.symptom}</span>
+                      <div key={i} className="mt-1.5 text-xs text-pink-700 font-extrabold leading-relaxed">
+                        💊 {a.agent} → <span className="text-rose-900 font-semibold">{a.symptom}</span>
                       </div>
                     ))}
                   </div>
                 </div>
               ) : (
-                <div className="bg-rose-50/30 border border-rose-100 p-4 rounded-xl flex items-center gap-3 text-rose-600 text-xs self-stretch md:self-auto font-bold">
+                <div className="bg-rose-50/30 border border-rose-100 p-4 rounded-2xl flex items-center gap-3 text-rose-600 text-xs self-stretch md:self-auto font-extrabold ring-1 ring-rose-100">
                   ✔️ ไม่มีประวัติการแพ้ยาในฐานข้อมูล
                 </div>
               )}
@@ -569,51 +569,64 @@ export default function App() {
             <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
               
               {/* 2. Left Side: Visits Timeline Column - Locked Header */}
-              <div className="lg:col-span-4 bg-white border border-rose-100 rounded-3xl flex flex-col shadow-sm max-h-[600px] lg:max-h-[calc(100vh-220px)] overflow-hidden lg:sticky lg:top-[96px] transition-all duration-300 hover:shadow-md hover:shadow-rose-150/5">
+              <div className="lg:col-span-4 bg-white/90 backdrop-blur-md border border-rose-100/80 rounded-3xl flex flex-col shadow-md max-h-[600px] lg:max-h-[calc(100vh-220px)] overflow-hidden lg:sticky lg:top-[96px] transition-all duration-300 hover:shadow-lg hover:shadow-rose-200/10">
                 <div className="p-4 border-b border-pink-500 bg-gradient-to-r from-pink-500 to-pink-600 text-white flex items-center justify-between">
                   <h3 className="font-extrabold text-white text-sm">ประวัติการตรวจรักษา ({patientData.visits ? patientData.visits.length : 0} Visits)</h3>
                   <span className="text-[10px] bg-white/20 border border-white/30 text-white py-0.5 px-2.5 rounded-full font-bold shadow-sm">ล่าสุด</span>
                 </div>
-                <div className="flex-1 overflow-y-auto divide-y divide-rose-50/50">
-                  {patientData.visits && patientData.visits.length > 0 ? (
-                    patientData.visits.map((v) => {
-                      const isSelected = selectedVn === v.vn;
-                      const hasAn = !!v.an;
-                      return (
-                        <button
-                          key={v.vn}
-                          onClick={() => handleSelectVisit(v.vn)}
-                          className={`w-full text-left p-4.5 transition-all duration-200 relative cursor-pointer flex flex-col gap-2 ${
-                            isSelected
-                              ? 'bg-rose-500/5 border-l-4 border-rose-500 font-extrabold'
-                              : 'hover:bg-rose-50/30 border-l-4 border-transparent hover:border-l-rose-300/40'
-                          }`}
-                        >
-                          <div className="flex items-center justify-between">
-                            <span className={`text-xs font-bold ${isSelected ? 'text-rose-900' : 'text-rose-955'}`}>
-                              {formatDate(v.vstdate)} {v.vsttime ? `เวลา ${v.vsttime.substring(0, 5)} น.` : ''}
-                            </span>
-                            <span className="text-[9px] text-rose-400 font-mono font-bold">VN: {v.vn}</span>
-                          </div>
-                          <div className="flex items-center justify-between gap-4">
-                            <span className="text-xs text-rose-900 font-semibold truncate flex-1">{v.department}</span>
-                            <span className={`text-[9px] font-extrabold px-2 py-0.5 rounded-full shrink-0 ${
-                              hasAn ? 'bg-amber-100 border border-amber-200 text-amber-700' : 'bg-rose-50 border border-rose-100/80 text-rose-600'
-                            }`}>
-                              {hasAn ? `IPD (AN: ${v.an})` : 'OPD'}
-                            </span>
-                          </div>
-                        </button>
-                      );
-                    })
-                  ) : (
-                    <div className="p-8 text-center text-zinc-400 text-xs">ไม่พบข้อมูลประวัติการรักษา</div>
+                <div className="flex-1 overflow-y-auto relative p-4 scrollbar-thin">
+                  {/* Timeline vertical connection line */}
+                  {patientData.visits && patientData.visits.length > 0 && (
+                    <div className="absolute left-7 top-6 bottom-6 w-0.5 bg-gradient-to-b from-rose-200 via-rose-100/30 to-rose-200/10"></div>
                   )}
+                  <div className="flex flex-col gap-3.5 relative">
+                    {patientData.visits && patientData.visits.length > 0 ? (
+                      patientData.visits.map((v) => {
+                        const isSelected = selectedVn === v.vn;
+                        const hasAn = !!v.an;
+                        return (
+                          <button
+                            key={v.vn}
+                            onClick={() => handleSelectVisit(v.vn)}
+                            className={`w-full text-left pl-9 pr-4 py-3.5 transition-all duration-200 relative cursor-pointer flex flex-col gap-1.5 rounded-2xl border ${
+                              isSelected
+                                ? 'bg-rose-500/[0.04] border-rose-300/80 shadow-sm font-extrabold scale-[1.01]'
+                                : 'hover:bg-rose-50/20 border-transparent hover:scale-[1.01]'
+                            }`}
+                          >
+                            {/* Timeline dot */}
+                            <div className={`absolute left-[9px] top-[20px] w-2.5 h-2.5 rounded-full border-2 transition-all duration-300 ${
+                              isSelected
+                                ? 'bg-pink-600 border-white ring-4 ring-pink-100 scale-110'
+                                : 'bg-white border-rose-300'
+                            }`}></div>
+                            
+                            <div className="flex items-center justify-between">
+                              <span className={`text-[11px] font-bold ${isSelected ? 'text-rose-955' : 'text-rose-800'}`}>
+                                {formatDate(v.vstdate)} {v.vsttime ? `เวลา ${v.vsttime.substring(0, 5)} น.` : ''}
+                              </span>
+                              <span className="text-[9px] text-rose-400 font-mono font-bold">VN: {v.vn}</span>
+                            </div>
+                            <div className="flex items-center justify-between gap-3">
+                              <span className="text-xs text-rose-900 font-semibold truncate flex-1">{v.department}</span>
+                              <span className={`text-[9px] font-extrabold px-2 py-0.5 rounded-full shrink-0 ${
+                                hasAn ? 'bg-amber-100 border border-amber-200 text-amber-700' : 'bg-rose-50 border border-rose-100/80 text-rose-600'
+                              }`}>
+                                {hasAn ? `IPD (AN: ${v.an})` : 'OPD'}
+                              </span>
+                            </div>
+                          </button>
+                        );
+                      })
+                    ) : (
+                      <div className="p-8 text-center text-zinc-400 text-xs">ไม่พบข้อมูลประวัติการรักษา</div>
+                    )}
+                  </div>
                 </div>
               </div>
 
               {/* 3. Right Side: Visit Details Viewer - Locked Header */}
-              <div className="lg:col-span-8 bg-white border border-rose-100 rounded-3xl flex flex-col shadow-sm max-h-[600px] lg:max-h-[calc(100vh-220px)] overflow-hidden lg:sticky lg:top-[96px] transition-all duration-300 hover:shadow-md hover:shadow-rose-150/5">
+              <div className="lg:col-span-8 bg-white/90 backdrop-blur-md border border-rose-100/80 rounded-3xl flex flex-col shadow-md max-h-[600px] lg:max-h-[calc(100vh-220px)] overflow-hidden lg:sticky lg:top-[96px] transition-all duration-300 hover:shadow-lg hover:shadow-rose-200/10">
                 <div className="p-4 border-b border-pink-500 bg-gradient-to-r from-pink-500 to-pink-600 text-white flex flex-wrap gap-2 items-center justify-between">
                   <div className="flex items-center gap-2">
                     <span className="text-xs text-rose-200 font-bold">รายละเอียดของ Visit:</span>
@@ -627,11 +640,13 @@ export default function App() {
                 </div>
 
                 {/* Tabs Selector */}
-                <div className="flex overflow-x-auto bg-rose-50/15 border-b border-rose-100 text-xs font-bold px-3 pt-2 gap-1">
+                <div className="flex overflow-x-auto bg-rose-50/20 border-b border-rose-100 text-xs font-bold px-4 pt-2.5 gap-1.5 scrollbar-thin">
                   <button
                     onClick={() => setActiveTab('vitals')}
                     className={`py-3 px-4 transition-all duration-200 whitespace-nowrap cursor-pointer rounded-t-xl ${
-                      activeTab === 'vitals' ? 'text-pink-600 bg-white border-t border-x border-rose-100/80 shadow-sm font-extrabold' : 'text-rose-800/70 hover:text-rose-600 hover:bg-white/40'
+                      activeTab === 'vitals'
+                        ? 'text-pink-600 bg-white border-t-2 border-t-pink-500 border-x border-rose-100/80 shadow-sm font-extrabold translate-y-[1px]'
+                        : 'text-rose-800/70 hover:text-rose-600 hover:bg-white/40'
                     }`}
                   >
                     🏥 คัดกรองและสัญญาณชีพ
@@ -639,7 +654,9 @@ export default function App() {
                   <button
                     onClick={() => setActiveTab('diagnoses')}
                     className={`py-3 px-4 transition-all duration-200 whitespace-nowrap cursor-pointer rounded-t-xl ${
-                      activeTab === 'diagnoses' ? 'text-pink-600 bg-white border-t border-x border-rose-100/80 shadow-sm font-extrabold' : 'text-rose-800/70 hover:text-rose-600 hover:bg-white/40'
+                      activeTab === 'diagnoses'
+                        ? 'text-pink-600 bg-white border-t-2 border-t-pink-500 border-x border-rose-100/80 shadow-sm font-extrabold translate-y-[1px]'
+                        : 'text-rose-800/70 hover:text-rose-600 hover:bg-white/40'
                     }`}
                   >
                     🩺 การวินิจฉัยและหัตถการ
@@ -647,7 +664,9 @@ export default function App() {
                   <button
                     onClick={() => setActiveTab('drugs')}
                     className={`py-3 px-4 transition-all duration-200 whitespace-nowrap cursor-pointer rounded-t-xl ${
-                      activeTab === 'drugs' ? 'text-pink-600 bg-white border-t border-x border-rose-100/80 shadow-sm font-extrabold' : 'text-rose-800/70 hover:text-rose-600 hover:bg-white/40'
+                      activeTab === 'drugs'
+                        ? 'text-pink-600 bg-white border-t-2 border-t-pink-500 border-x border-rose-100/80 shadow-sm font-extrabold translate-y-[1px]'
+                        : 'text-rose-800/70 hover:text-rose-600 hover:bg-white/40'
                     }`}
                   >
                     💊 รายการยารักษา
@@ -655,7 +674,9 @@ export default function App() {
                   <button
                     onClick={() => setActiveTab('labs')}
                     className={`py-3 px-4 transition-all duration-200 whitespace-nowrap cursor-pointer rounded-t-xl ${
-                      activeTab === 'labs' ? 'text-pink-600 bg-white border-t border-x border-rose-100/80 shadow-sm font-extrabold' : 'text-rose-800/70 hover:text-rose-600 hover:bg-white/40'
+                      activeTab === 'labs'
+                        ? 'text-pink-600 bg-white border-t-2 border-t-pink-500 border-x border-rose-100/80 shadow-sm font-extrabold translate-y-[1px]'
+                        : 'text-rose-800/70 hover:text-rose-600 hover:bg-white/40'
                     }`}
                   >
                     🧪 ผลตรวจทางห้องแล็บ
@@ -663,7 +684,9 @@ export default function App() {
                   <button
                     onClick={() => setActiveTab('xrays')}
                     className={`py-3 px-4 transition-all duration-200 whitespace-nowrap cursor-pointer rounded-t-xl ${
-                      activeTab === 'xrays' ? 'text-pink-600 bg-white border-t border-x border-rose-100/80 shadow-sm font-extrabold' : 'text-rose-800/70 hover:text-rose-600 hover:bg-white/40'
+                      activeTab === 'xrays'
+                        ? 'text-pink-600 bg-white border-t-2 border-t-pink-500 border-x border-rose-100/80 shadow-sm font-extrabold translate-y-[1px]'
+                        : 'text-rose-800/70 hover:text-rose-600 hover:bg-white/40'
                     }`}
                   >
                     ☢️ ผลเอกซเรย์ X-ray
@@ -671,7 +694,9 @@ export default function App() {
                   <button
                     onClick={() => setActiveTab('appointments')}
                     className={`py-3 px-4 transition-all duration-200 whitespace-nowrap cursor-pointer rounded-t-xl ${
-                      activeTab === 'appointments' ? 'text-pink-600 bg-white border-t border-x border-rose-100/80 shadow-sm font-extrabold' : 'text-rose-800/70 hover:text-rose-600 hover:bg-white/40'
+                      activeTab === 'appointments'
+                        ? 'text-pink-600 bg-white border-t-2 border-t-pink-500 border-x border-rose-100/80 shadow-sm font-extrabold translate-y-[1px]'
+                        : 'text-rose-800/70 hover:text-rose-600 hover:bg-white/40'
                     }`}
                   >
                     📅 การนัดหมายและส่งต่อ
