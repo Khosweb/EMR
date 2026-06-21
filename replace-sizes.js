@@ -47,24 +47,6 @@ const replacements = [
     `className="w-full bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white py-3.5 rounded-xl text-sm font-bold shadow-lg shadow-rose-200/80 hover:shadow-xl hover:shadow-rose-300/80 disabled:opacity-50 transition duration-200 flex items-center justify-center gap-2 cursor-pointer"`,
     `className="w-full bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white py-3.5 rounded-xl text-base font-bold shadow-lg shadow-rose-200/80 hover:shadow-xl hover:shadow-rose-300/80 disabled:opacity-50 transition duration-200 flex items-center justify-center gap-2 cursor-pointer"`
   ],
-  // Login Demo box labels
-  [
-    `className="border-t border-rose-100/80 pt-6 flex flex-col gap-3.5"`,
-    `className="border-t border-rose-100/80 pt-6 flex flex-col gap-3.5"`
-  ],
-  [
-    `<span className="text-[11px] text-center text-pink-600/60 font-bold uppercase tracking-wider">ทดลองใช้งานโปรแกรมด้วยข้อมูลจำลอง (Demo Mode)</span>`,
-    `<span className="text-xs text-center text-pink-600/60 font-bold uppercase tracking-wider">ทดลองใช้งานโปรแกรมด้วยข้อมูลจำลอง (Demo Mode)</span>`
-  ],
-  [
-    `className="bg-rose-50/40 hover:bg-rose-100/50 border border-rose-100/50 text-rose-800 text-xs font-extrabold py-3 px-4 rounded-xl text-center transition hover:scale-[1.02] shadow-sm cursor-pointer"`,
-    `className="bg-rose-50/40 hover:bg-rose-100/50 border border-rose-100/50 text-rose-800 text-sm font-extrabold py-3 px-4 rounded-xl text-center transition hover:scale-[1.02] shadow-sm cursor-pointer"`
-  ],
-  [
-    `className="text-[10px] text-center text-rose-600 leading-normal font-semibold"`,
-    `className="text-xs text-center text-rose-600 leading-normal font-semibold"`
-  ],
-
   // 2. Header and Shortcuts
   [
     `<h1 className="text-sm font-extrabold text-white tracking-wide leading-none">HOSxP EMR</h1>`,

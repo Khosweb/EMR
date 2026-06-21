@@ -199,7 +199,7 @@ export default function App() {
         setSession(mockData);
         localStorage.setItem('emr_session', JSON.stringify(mockData));
       } else {
-        setLoginError('ชื่อผู้ใช้หรือรหัสผ่านผิดพลาด (ทดลองใช้ demo หรือ admin)');
+        setLoginError('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
       }
     } finally {
       setLoginLoading(false);
@@ -347,7 +347,7 @@ export default function App() {
               <label className="text-sm font-bold text-rose-800/80 tracking-wider uppercase">Username</label>
               <input
                 type="text"
-                placeholder="ระบุรหัสเข้าใช้งาน เช่น demo"
+                placeholder="ระบุรหัสเข้าใช้งาน"
                 required
                 className="w-full bg-white/50 border border-rose-100/80 rounded-xl px-4 py-3.5 text-base text-rose-955 placeholder-rose-300 focus:outline-none focus:ring-4 focus:ring-rose-500/10 focus:border-rose-500 transition duration-300"
                 value={loginForm.username}
@@ -386,33 +386,6 @@ export default function App() {
             </button>
           </form>
 
-          {/* Quick Demo Mode Options */}
-          <div className="border-t border-rose-100/80 pt-6 flex flex-col gap-3.5">
-            <span className="text-xs text-center text-pink-600/60 font-bold uppercase tracking-wider">ทดลองใช้งานโปรแกรมด้วยข้อมูลจำลอง (Demo Mode)</span>
-            <div className="grid grid-cols-2 gap-3">
-              <button
-                onClick={() => {
-                  setLoginForm({ username: 'demo', password: 'password' });
-                  setLoginError('');
-                }}
-                className="bg-rose-50/40 hover:bg-rose-100/50 border border-rose-100/50 text-rose-800 text-sm font-extrabold py-3 px-4 rounded-xl text-center transition hover:scale-[1.02] shadow-sm cursor-pointer"
-              >
-                ผู้ใช้ทดสอบ: demo
-              </button>
-              <button
-                onClick={() => {
-                  setLoginForm({ username: 'admin', password: 'password' });
-                  setLoginError('');
-                }}
-                className="bg-rose-50/40 hover:bg-rose-100/50 border border-rose-100/50 text-rose-800 text-xs font-extrabold py-3 px-4 rounded-xl text-center transition hover:scale-[1.02] shadow-sm cursor-pointer"
-              >
-                ผู้ใช้จำลอง: admin
-              </button>
-            </div>
-            <p className="text-xs text-center text-rose-600 leading-normal font-semibold">
-              *ระบุชื่อผู้ใช้และรหัสผ่านของท่าน หรือกดเลือกปุ่มทดลองใช้งานเพื่อทดสอบระบบหน้าบ้าน
-            </p>
-          </div>
         </div>
       </div>
     );
