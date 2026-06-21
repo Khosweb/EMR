@@ -526,7 +526,7 @@ export default function App() {
                     <span>เพศ: <strong className="text-rose-900">{getSexLabel(patientData.patient.sex)}</strong></span>
                     <span>อายุ: <strong className="text-rose-900">{patientData.patient.age} ปี</strong></span>
                     <span>วันเกิด: <strong className="text-rose-900">{formatDate(patientData.patient.birthday)}</strong></span>
-                    <span>เลขบัตรประชาชน: <strong className="text-rose-900">{formatDate(patientData.patient.cid)}</strong></span>
+                    <span>เลขบัตรประชาชน: <strong className="text-rose-900">{patientData.patient.cid}</strong></span>
                   </div>
                 </div>
               </div>
