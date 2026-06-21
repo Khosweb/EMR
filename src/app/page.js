@@ -510,7 +510,7 @@ export default function App() {
           <div className="w-full flex flex-col gap-6">
             
             {/* 1. Patient Profile Summary Panel - Green Highlights */}
-            <div className="bg-white/90 backdrop-blur-md border border-emerald-500/20 rounded-3xl p-6 flex flex-col md:flex-row md:items-start justify-between gap-6 relative shadow-md shadow-emerald-950/[0.03] transition-all duration-300 hover:shadow-lg hover:shadow-emerald-250/10">
+            <div className="bg-gradient-to-br from-emerald-50/50 via-white/90 to-teal-50/40 backdrop-blur-md border border-emerald-500/20 rounded-3xl p-6 flex flex-col md:flex-row md:items-start justify-between gap-6 relative shadow-md shadow-emerald-950/[0.02] transition-all duration-300 hover:shadow-lg hover:shadow-emerald-200/10">
               <div className="flex flex-col md:flex-row items-center md:items-start gap-4">
                 <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50 flex items-center justify-center border border-emerald-100 text-emerald-500 font-extrabold text-2xl shadow-inner shadow-emerald-100/30">
                   {patientData.patient.sex === '1' ? '👨' : '👩'}
