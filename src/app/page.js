@@ -441,12 +441,12 @@ export default function App() {
             <input
               type="text"
               placeholder="ค้นหา HN (เช่น 1234567)"
-              className="w-full bg-white/10 border border-white/20 rounded-xl pl-10 pr-3 py-2 text-xs text-white placeholder-rose-200 focus:outline-none focus:bg-white focus:text-zinc-800 focus:placeholder-zinc-400 transition duration-200"
+              className="w-full bg-white border border-rose-200/50 rounded-xl pl-10 pr-3 py-2 text-xs text-zinc-800 placeholder-rose-300 focus:outline-none focus:ring-4 focus:ring-rose-500/10 focus:border-rose-400 transition duration-200"
               value={searchHn}
               onChange={(e) => setSearchHn(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSearchPatient()}
             />
-            <div className="absolute left-3.5 top-2.5 text-rose-200">
+            <div className="absolute left-3.5 top-2.5 text-pink-450">
               <SearchIcon />
             </div>
           </div>
