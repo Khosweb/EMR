@@ -528,41 +528,53 @@ export default function App() {
                     <span>วันเกิด: <strong className="text-rose-900">{formatDate(patientData.patient.birthday)}</strong></span>
                     <span>เลขบัตรประชาชน: <strong className="text-rose-900">{formatDate(patientData.patient.cid)}</strong></span>
                   </div>
-
-                  {/* Chronic Diseases */}
-                  {patientData.chronics && patientData.chronics.length > 0 && (
-                    <div className="flex flex-wrap gap-1.5 items-center mt-3">
-                      <span className="text-[10px] text-pink-600 font-extrabold uppercase tracking-wider">โรคประจำตัว:</span>
-                      {patientData.chronics.map((c, i) => (
-                        <span key={i} className="text-[11px] bg-rose-50 border border-rose-100 text-rose-800 px-2.5 py-0.5 rounded-full font-bold">
-                          {c.clinic_name}
-                        </span>
-                      ))}
-                    </div>
-                  )}
                 </div>
               </div>
 
-              {/* Drug Allergy Warnings - Soft Blinking Warning block */}
-              {patientData.allergies && patientData.allergies.length > 0 ? (
-                <div className="bg-rose-50 border border-rose-200 p-4.5 rounded-2xl flex items-start gap-3 md:max-w-md w-full md:w-auto self-stretch md:self-auto shadow-sm hover:shadow-md transition-shadow duration-300 ring-1 ring-rose-200/50">
-                  <div className="text-rose-600 mt-0.5 animate-pulse">
-                    <AlertIcon />
-                  </div>
-                  <div>
-                    <h4 className="text-pink-700 font-extrabold text-xs tracking-wider uppercase">ระวัง: ประวัติแพ้ยา (Drug Allergy)</h4>
-                    {patientData.allergies.map((a, i) => (
-                      <div key={i} className="mt-1.5 text-xs text-pink-700 font-extrabold leading-relaxed">
-                        💊 {a.agent} → <span className="text-rose-900 font-semibold">{a.symptom}</span>
+              {/* Right Side: Chronic Diseases & Drug Allergies info boxes */}
+              <div className="flex flex-col sm:flex-row gap-4 items-stretch md:items-start shrink-0">
+                {/* Chronic Diseases - Styled as Green Box */}
+                {patientData.chronics && patientData.chronics.length > 0 ? (
+                  <div className="bg-emerald-50/60 border border-emerald-200 p-4.5 rounded-2xl flex items-start gap-3 md:max-w-xs w-full md:w-auto self-stretch md:self-auto shadow-sm ring-1 ring-emerald-250/20">
+                    <span className="text-emerald-600 text-lg mt-0.5">🩺</span>
+                    <div>
+                      <h4 className="text-emerald-700 font-extrabold text-xs tracking-wider uppercase">โรคประจำตัว (Chronic Diseases)</h4>
+                      <div className="mt-1.5 flex flex-col gap-1">
+                        {patientData.chronics.map((c, i) => (
+                          <div key={i} className="text-xs text-emerald-800 font-extrabold flex items-center gap-1">
+                            • {c.clinic_name}
+                          </div>
+                        ))}
                       </div>
-                    ))}
+                    </div>
                   </div>
-                </div>
-              ) : (
-                <div className="bg-rose-50/30 border border-rose-100 p-4 rounded-2xl flex items-center gap-3 text-rose-600 text-xs self-stretch md:self-auto font-extrabold ring-1 ring-rose-100">
-                  ✔️ ไม่มีประวัติการแพ้ยาในฐานข้อมูล
-                </div>
-              )}
+                ) : (
+                  <div className="bg-emerald-50/20 border border-emerald-100 p-4 rounded-2xl flex items-center gap-3 text-emerald-600 text-xs self-stretch md:self-auto font-extrabold ring-1 ring-emerald-50">
+                    ✔️ ไม่มีโรคประจำตัวในระบบ
+                  </div>
+                )}
+
+                {/* Drug Allergy Warnings - Soft Blinking Warning block */}
+                {patientData.allergies && patientData.allergies.length > 0 ? (
+                  <div className="bg-rose-50 border border-rose-200 p-4.5 rounded-2xl flex items-start gap-3 md:max-w-md w-full md:w-auto self-stretch md:self-auto shadow-sm hover:shadow-md transition-shadow duration-300 ring-1 ring-rose-200/50">
+                    <div className="text-rose-600 mt-0.5 animate-pulse">
+                      <AlertIcon />
+                    </div>
+                    <div>
+                      <h4 className="text-pink-700 font-extrabold text-xs tracking-wider uppercase">ระวัง: ประวัติแพ้ยา (Drug Allergy)</h4>
+                      {patientData.allergies.map((a, i) => (
+                        <div key={i} className="mt-1.5 text-xs text-pink-700 font-extrabold leading-relaxed">
+                          💊 {a.agent} → <span className="text-rose-900 font-semibold">{a.symptom}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="bg-rose-50/30 border border-rose-100 p-4 rounded-2xl flex items-center gap-3 text-rose-600 text-xs self-stretch md:self-auto font-extrabold ring-1 ring-rose-100">
+                    ✔️ ไม่มีประวัติการแพ้ยาในฐานข้อมูล
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Dashboard Workspace */}
