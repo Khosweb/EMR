@@ -556,15 +556,15 @@ export default function App() {
 
                 {/* Drug Allergy Warnings - Soft Blinking Warning block */}
                 {patientData.allergies && patientData.allergies.length > 0 ? (
-                  <div className="bg-rose-50 border border-rose-200 p-4.5 rounded-2xl flex items-start gap-3 md:max-w-md w-full md:w-auto self-stretch md:self-auto shadow-sm hover:shadow-md transition-shadow duration-300 ring-1 ring-rose-200/50">
-                    <div className="text-rose-600 mt-0.5 animate-pulse">
+                  <div className="bg-red-50/70 border border-red-400 p-4.5 rounded-2xl flex items-start gap-3 md:max-w-md w-full md:w-auto self-stretch md:self-auto shadow-sm hover:shadow-md transition-shadow duration-300 ring-1 ring-red-500/20">
+                    <div className="text-red-600 mt-0.5 animate-pulse">
                       <AlertIcon />
                     </div>
                     <div>
-                      <h4 className="text-pink-700 font-extrabold text-xs tracking-wider uppercase">ระวัง: ประวัติแพ้ยา (Drug Allergy)</h4>
+                      <h4 className="text-red-700 font-extrabold text-xs tracking-wider uppercase">ระวัง: ประวัติแพ้ยา (Drug Allergy)</h4>
                       {patientData.allergies.map((a, i) => (
-                        <div key={i} className="mt-1.5 text-xs text-pink-700 font-extrabold leading-relaxed">
-                          💊 {a.agent} → <span className="text-rose-900 font-semibold">{a.symptom}</span>
+                        <div key={i} className="mt-1.5 text-xs text-red-700 font-extrabold leading-relaxed">
+                          💊 {a.agent} → <span className="text-red-900 font-semibold">{a.symptom}</span>
                         </div>
                       ))}
                     </div>
