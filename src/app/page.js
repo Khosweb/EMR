@@ -682,10 +682,10 @@ export default function App() {
                 </div>
 
                 {/* Tabs Selector */}
-                <div className="flex overflow-x-auto bg-rose-50/20 border-b border-rose-100 text-sm font-bold px-4 pt-2.5 gap-1.5 scrollbar-thin">
+                <div className="flex flex-wrap md:flex-nowrap md:overflow-x-auto bg-rose-50/20 border-b border-rose-100 text-xs md:text-sm font-bold px-3 md:px-4 pt-2 gap-1 md:gap-1.5 scrollbar-thin">
                   <button
                     onClick={() => setActiveTab('vitals')}
-                    className={`py-3 px-4 transition-all duration-200 whitespace-nowrap cursor-pointer rounded-t-xl ${
+                    className={`py-2 px-2.5 md:py-3 md:px-4 transition-all duration-200 whitespace-nowrap cursor-pointer rounded-t-lg md:rounded-t-xl ${
                       activeTab === 'vitals'
                         ? 'text-pink-600 bg-white border-t-2 border-t-pink-500 border-x border-rose-100/80 shadow-sm font-extrabold translate-y-[1px]'
                         : 'text-rose-800/70 hover:text-rose-600 hover:bg-white/40'
@@ -695,7 +695,7 @@ export default function App() {
                   </button>
                   <button
                     onClick={() => setActiveTab('diagnoses')}
-                    className={`py-3 px-4 transition-all duration-200 whitespace-nowrap cursor-pointer rounded-t-xl ${
+                    className={`py-2 px-2.5 md:py-3 md:px-4 transition-all duration-200 whitespace-nowrap cursor-pointer rounded-t-lg md:rounded-t-xl ${
                       activeTab === 'diagnoses'
                         ? 'text-pink-600 bg-white border-t-2 border-t-pink-500 border-x border-rose-100/80 shadow-sm font-extrabold translate-y-[1px]'
                         : 'text-rose-800/70 hover:text-rose-600 hover:bg-white/40'
@@ -705,7 +705,7 @@ export default function App() {
                   </button>
                   <button
                     onClick={() => setActiveTab('drugs')}
-                    className={`py-3 px-4 transition-all duration-200 whitespace-nowrap cursor-pointer rounded-t-xl ${
+                    className={`py-2 px-2.5 md:py-3 md:px-4 transition-all duration-200 whitespace-nowrap cursor-pointer rounded-t-lg md:rounded-t-xl ${
                       activeTab === 'drugs'
                         ? 'text-pink-600 bg-white border-t-2 border-t-pink-500 border-x border-rose-100/80 shadow-sm font-extrabold translate-y-[1px]'
                         : 'text-rose-800/70 hover:text-rose-600 hover:bg-white/40'
@@ -715,7 +715,7 @@ export default function App() {
                   </button>
                   <button
                     onClick={() => setActiveTab('labs')}
-                    className={`py-3 px-4 transition-all duration-200 whitespace-nowrap cursor-pointer rounded-t-xl ${
+                    className={`py-2 px-2.5 md:py-3 md:px-4 transition-all duration-200 whitespace-nowrap cursor-pointer rounded-t-lg md:rounded-t-xl ${
                       activeTab === 'labs'
                         ? 'text-pink-600 bg-white border-t-2 border-t-pink-500 border-x border-rose-100/80 shadow-sm font-extrabold translate-y-[1px]'
                         : 'text-rose-800/70 hover:text-rose-600 hover:bg-white/40'
@@ -725,7 +725,7 @@ export default function App() {
                   </button>
                   <button
                     onClick={() => setActiveTab('xrays')}
-                    className={`py-3 px-4 transition-all duration-200 whitespace-nowrap cursor-pointer rounded-t-xl ${
+                    className={`py-2 px-2.5 md:py-3 md:px-4 transition-all duration-200 whitespace-nowrap cursor-pointer rounded-t-lg md:rounded-t-xl ${
                       activeTab === 'xrays'
                         ? 'text-pink-600 bg-white border-t-2 border-t-pink-500 border-x border-rose-100/80 shadow-sm font-extrabold translate-y-[1px]'
                         : 'text-rose-800/70 hover:text-rose-600 hover:bg-white/40'
@@ -735,7 +735,7 @@ export default function App() {
                   </button>
                   <button
                     onClick={() => setActiveTab('appointments')}
-                    className={`py-3 px-4 transition-all duration-200 whitespace-nowrap cursor-pointer rounded-t-xl ${
+                    className={`py-2 px-2.5 md:py-3 md:px-4 transition-all duration-200 whitespace-nowrap cursor-pointer rounded-t-lg md:rounded-t-xl ${
                       activeTab === 'appointments'
                         ? 'text-pink-600 bg-white border-t-2 border-t-pink-500 border-x border-rose-100/80 shadow-sm font-extrabold translate-y-[1px]'
                         : 'text-rose-800/70 hover:text-rose-600 hover:bg-white/40'
