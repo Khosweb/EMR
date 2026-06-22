@@ -800,24 +800,17 @@ export default function App() {
                                   </tr>
                                 </thead>
                                 <tbody className="divide-y divide-rose-50">
-                                  {(() => {
-                                    const filteredDiags = (visitDetails.diagnoses || []).filter(
-                                      diag => !/^[0-9]/.test(diag.icd10 || '')
-                                    );
-                                    if (filteredDiags.length > 0) {
-                                      return filteredDiags.map((diag, index) => (
-                                        <tr key={index} className="hover:bg-rose-50/20">
-                                          <td className="p-3 font-mono font-bold text-rose-600">{diag.icd10}</td>
-                                        </tr>
-                                      ));
-                                    } else {
-                                      return (
-                                        <tr>
-                                          <td className="p-4 text-center text-zinc-400">ไม่มีการระบุการวินิจฉัยโรค</td>
-                                        </tr>
-                                      );
-                                    }
-                                  })()}
+                                  {visitDetails.diagnoses && visitDetails.diagnoses.length > 0 ? (
+                                    visitDetails.diagnoses.map((diag, index) => (
+                                      <tr key={index} className="hover:bg-rose-50/20">
+                                        <td className="p-3 font-mono font-bold text-rose-600">{diag.icd10}</td>
+                                      </tr>
+                                    ))
+                                  ) : (
+                                    <tr>
+                                      <td className="p-4 text-center text-zinc-400">ไม่มีการระบุการวินิจฉัยโรค</td>
+                                    </tr>
+                                  )}
                                 </tbody>
                               </table>
                             </div>
