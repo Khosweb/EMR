@@ -600,7 +600,7 @@ export default function App() {
             <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
               
               {/* 2. Left Side: Visits Timeline Column - Locked Header */}
-              <div className={`lg:col-span-4 bg-white/90 backdrop-blur-md border border-rose-100/80 rounded-3xl flex flex-col shadow-md max-h-[600px] lg:max-h-[calc(100vh-220px)] overflow-hidden lg:sticky lg:top-[96px] transition-all duration-300 hover:shadow-lg hover:shadow-rose-200/10 ${selectedVn ? 'hidden lg:flex' : 'flex'}`}>
+              <div className="lg:col-span-4 bg-white/90 backdrop-blur-md border border-rose-100/80 rounded-3xl flex flex-col shadow-md max-h-[400px] lg:max-h-[calc(100vh-220px)] overflow-hidden lg:sticky lg:top-[96px] transition-all duration-300 hover:shadow-lg hover:shadow-rose-200/10">
                 <div className="p-4 border-b border-pink-500 bg-gradient-to-r from-pink-500 to-pink-600 text-white flex items-center justify-between">
                   <h3 className="font-extrabold text-white text-lg">ประวัติการตรวจรักษา ({patientData.visits ? patientData.visits.length : 0} Visits)</h3>
                   <span className="text-sm bg-white/20 border border-white/30 text-white py-0.5 px-2.5 rounded-full font-bold shadow-sm">ล่าสุด</span>
@@ -657,20 +657,9 @@ export default function App() {
               </div>
 
               {/* 3. Right Side: Visit Details Viewer - Locked Header */}
-              <div className={`lg:col-span-8 bg-white/90 backdrop-blur-md border border-rose-100/80 rounded-3xl flex flex-col shadow-md min-h-[400px] lg:max-h-[calc(100vh-220px)] overflow-hidden lg:sticky lg:top-[96px] transition-all duration-300 hover:shadow-lg hover:shadow-rose-200/10 ${selectedVn ? 'flex' : 'hidden lg:flex'}`}>
+              <div className="lg:col-span-8 bg-white/90 backdrop-blur-md border border-rose-100/80 rounded-3xl flex flex-col shadow-md min-h-[400px] lg:max-h-[calc(100vh-220px)] overflow-hidden lg:sticky lg:top-[96px] transition-all duration-300 hover:shadow-lg hover:shadow-rose-200/10">
                 <div className="p-4 border-b border-pink-500 bg-gradient-to-r from-pink-500 to-pink-600 text-white flex flex-wrap gap-2 items-center justify-between">
-                  <div className="flex items-center gap-2.5">
-                    {/* Back Button on Mobile */}
-                    <button
-                      onClick={() => {
-                        setSelectedVn('');
-                        setVisitDetails(null);
-                      }}
-                      className="lg:hidden flex items-center justify-center bg-white/10 hover:bg-white/20 text-white p-1.5 rounded-lg border border-white/20 transition cursor-pointer"
-                      title="ย้อนกลับ"
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                    </button>
+                  <div className="flex items-center gap-2">
                     <span className="text-sm text-rose-200 font-bold">รายละเอียดของ Visit:</span>
                     <strong className="text-base text-white font-extrabold">{selectedVn || 'กรุณาเลือก Visit'}</strong>
                   </div>
