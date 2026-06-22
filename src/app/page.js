@@ -321,6 +321,15 @@ export default function App() {
     }
   };
 
+  const formatCid = (cid) => {
+    if (!cid) return '-';
+    const cleanCid = cid.toString().replace(/-/g, '');
+    if (cleanCid.length >= 9) {
+      return cleanCid.substring(0, 3) + 'xxxxxx' + cleanCid.substring(9);
+    }
+    return cid;
+  };
+
   if (!session) {
     // LOGIN SCREEN - Premium Light Pink & White Color Scheme
     return (
@@ -536,7 +545,7 @@ export default function App() {
                     <span>เพศ: <strong className="text-rose-900">{getSexLabel(patientData.patient.sex)}</strong></span>
                     <span>อายุ: <strong className="text-rose-900">{patientData.patient.age} ปี</strong></span>
                     <span>วันเกิด: <strong className="text-rose-900">{formatDate(patientData.patient.birthday)}</strong></span>
-                    <span>เลขบัตรประชาชน: <strong className="text-rose-900">{patientData.patient.cid}</strong></span>
+                    <span>เลขบัตรประชาชน: <strong className="text-rose-900">{formatCid(patientData.patient.cid)}</strong></span>
                   </div>
                 </div>
               </div>
