@@ -331,8 +331,12 @@ export default function App() {
 
         <div className="w-full max-w-lg glassmorphism rounded-3xl shadow-2xl shadow-rose-200/30 p-10 flex flex-col gap-8 relative z-10 border border-white/40 transition-all duration-300 hover:shadow-rose-200/40">
           <div className="flex flex-col items-center gap-3.5 text-center">
-            <div className="bg-gradient-to-br from-rose-500 to-pink-500 text-white p-4 rounded-3xl shadow-lg shadow-rose-200/60 border border-rose-400/20 animate-float">
-              <StethoscopeIcon />
+            <div className="bg-white p-2.5 rounded-3xl shadow-lg shadow-rose-200/60 border border-rose-100 animate-float w-24 h-24 flex items-center justify-center overflow-hidden">
+              <img
+                src="/logo-khh.png"
+                alt="Logo KHH"
+                className="w-full h-full object-contain"
+              />
             </div>
             <h1 className="text-4xl font-extrabold tracking-tight bg-gradient-to-r from-rose-900 via-rose-800 to-pink-700 bg-clip-text text-transparent mt-2">
               HOSxP EMR Portal
@@ -400,8 +404,12 @@ export default function App() {
         <div className="flex items-center gap-6 flex-1 max-w-4xl">
           {/* Logo */}
           <div className="flex items-center gap-2.5 shrink-0 hover:scale-[1.02] transition-transform duration-200">
-            <div className="bg-white text-pink-600 p-2 rounded-xl shadow-sm border border-white/10">
-              <StethoscopeIcon />
+            <div className="bg-white p-1 rounded-xl shadow-sm border border-white/10 w-9 h-9 flex items-center justify-center overflow-hidden">
+              <img
+                src="/logo-khh.png"
+                alt="Logo KHH"
+                className="w-full h-full object-contain"
+              />
             </div>
             <div>
               <h1 className="text-lg font-extrabold text-white tracking-wide leading-none">HOSxP EMR</h1>
