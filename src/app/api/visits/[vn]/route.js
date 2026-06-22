@@ -278,6 +278,8 @@ export async function GET(request, { params }) {
         ORDER BY od.diagtype ASC, od.ovst_diag_id ASC
       `;
       diagnoses = await query(diagnosesSql, [hasAdmit ? targetAn : vn]);
+      // กรองเอาเฉพาะที่ขึ้นต้นด้วย a-z หรือ A-Z (รหัสโรค ICD-10)
+      diagnoses = diagnoses.filter(diag => /^[a-zA-Z]/.test(diag.icd10 || ''));
     } catch (err) {
       console.warn('Failed to query diagnoses:', err.message);
       diagnoses = [];
