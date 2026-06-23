@@ -209,7 +209,7 @@ export async function POST(request) {
 
     // If user is not found in database, we require them to be registered in HOSxP to log in
     if (!dbUser) {
-      if (isMockMode) {
+      if (isMockMode || process.env.BYPASS_PROVIDER_VERIFICATION === 'true') {
         dbUser = {
           loginname: 'mock_provider',
           name: nameTh || 'หมอพร้อม สงบสุข (ทดสอบ)',
