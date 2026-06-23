@@ -103,43 +103,68 @@ export async function POST(request) {
       const providerTokenData = await providerTokenRes.json();
       if (!providerTokenRes.ok) {
         console.error('Provider ID Token Exchange Error:', providerTokenData);
-        return NextResponse.json(
-          { error: providerTokenData.message_th || providerTokenData.message || 'Failed to obtain Provider ID token' },
-          { status: providerTokenRes.status }
-        );
+        
+        if (process.env.BYPASS_PROVIDER_VERIFICATION === 'true') {
+          console.warn('BYPASS_PROVIDER_VERIFICATION is active. Falling back to mock physician profile.');
+          providerProfileData = {
+            account_id: healthIdTokenData.data?.account_id || "5449999999999",
+            hash_cid: "7a5635c12063210ec4cb9ea689709541a0d474890e38813e78c566e09f8f6aa7",
+            provider_id: "0111111111X21",
+            special_title_th: "นายแพทย์",
+            name_th: "หมอพร้อม สงบสุข (จำลองผ่านบายพาส)",
+            firstname_th: "หมอพร้อม",
+            lastname_th: "สงบสุข",
+            organization: [
+              {
+                position: "แพทย์",
+                license_id: "D9999", // maps to mock doctor code
+                hcode: "10665",
+                hname_th: "โรงพยาบาลทดสอบ"
+              }
+            ]
+          };
+        } else {
+          return NextResponse.json(
+            { 
+              error: providerTokenData.message_th || providerTokenData.message || 'Failed to obtain Provider ID token',
+              message: 'บัญชี Health ID นี้ไม่มีข้อมูล Provider ID ในระบบ UAT ของกระทรวงฯ (สามารถข้ามขั้นตอนนี้ได้โดยใส่ BYPASS_PROVIDER_VERIFICATION=true ใน .env.local)'
+            },
+            { status: providerTokenRes.status }
+          );
+        }
+      } else {
+        const providerAccessToken = providerTokenData.data?.access_token;
+        if (!providerAccessToken) {
+          return NextResponse.json(
+            { error: 'Provider ID access token missing from response' },
+            { status: 500 }
+          );
+        }
+
+        // 3. Fetch Provider Profile
+        const profileUrl = `${providerIdUrl}/api/v1/services/profile`;
+        console.log('Fetching Provider Profile from:', profileUrl);
+        const profileRes = await fetch(profileUrl, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${providerAccessToken}`,
+            'client-id': providerClientId,
+            'secret-key': providerClientSecret,
+          },
+        });
+
+        const profileData = await profileRes.json();
+        if (!profileRes.ok) {
+          console.error('Provider Profile Fetch Error:', profileData);
+          return NextResponse.json(
+            { error: profileData.message_th || profileData.message || 'Failed to fetch provider profile' },
+            { status: profileRes.status }
+          );
+        }
+
+        providerProfileData = profileData.data;
       }
-
-      const providerAccessToken = providerTokenData.data?.access_token;
-      if (!providerAccessToken) {
-        return NextResponse.json(
-          { error: 'Provider ID access token missing from response' },
-          { status: 500 }
-        );
-      }
-
-      // 3. Fetch Provider Profile
-      const profileUrl = `${providerIdUrl}/api/v1/services/profile`;
-      console.log('Fetching Provider Profile from:', profileUrl);
-      const profileRes = await fetch(profileUrl, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${providerAccessToken}`,
-          'client-id': providerClientId,
-          'secret-key': providerClientSecret,
-        },
-      });
-
-      const profileData = await profileRes.json();
-      if (!profileRes.ok) {
-        console.error('Provider Profile Fetch Error:', profileData);
-        return NextResponse.json(
-          { error: profileData.message_th || profileData.message || 'Failed to fetch provider profile' },
-          { status: profileRes.status }
-        );
-      }
-
-      providerProfileData = profileData.data;
     }
 
     if (!providerProfileData) {
