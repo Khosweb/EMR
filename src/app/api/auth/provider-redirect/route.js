@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 export async function GET(request) {
   try {
     const healthIdUrl = process.env.HEALTH_ID_URL || 'https://uat-moph.id.th';
-    const clientId = process.env.PROVIDER_CLIENT_ID || 'your_provider_client_id_here';
+    const clientId = process.env.HEALTH_CLIENT_ID || process.env.PROVIDER_CLIENT_ID || 'your_health_client_id_here';
     const redirectUri = process.env.PROVIDER_REDIRECT_URI || 'http://localhost:5177/';
 
     const targetUrl = `${healthIdUrl}/oauth/redirect?client_id=${encodeURIComponent(clientId)}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code`;

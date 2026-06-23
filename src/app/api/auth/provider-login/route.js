@@ -15,12 +15,20 @@ export async function POST(request) {
 
     const healthIdUrl = process.env.HEALTH_ID_URL || 'https://uat-moph.id.th';
     const providerIdUrl = process.env.PROVIDER_ID_URL || 'https://uat-provider.id.th';
-    const clientId = process.env.PROVIDER_CLIENT_ID;
-    const clientSecret = process.env.PROVIDER_CLIENT_SECRET;
+    
+    const healthClientId = process.env.HEALTH_CLIENT_ID || process.env.PROVIDER_CLIENT_ID;
+    const healthClientSecret = process.env.HEALTH_CLIENT_SECRET || process.env.PROVIDER_CLIENT_SECRET;
+    
+    const providerClientId = process.env.PROVIDER_CLIENT_ID;
+    const providerClientSecret = process.env.PROVIDER_CLIENT_SECRET;
+    
     const redirectUri = process.env.PROVIDER_REDIRECT_URI || 'http://localhost:5177/';
 
     // Mock mode activation if credentials are not configured or if using a mock- prefix
-    const isMockMode = !clientId || clientId === 'your_provider_client_id_here' || code.startsWith('mock-');
+    const isMockMode = (!healthClientId && !providerClientId) || 
+                       (healthClientId === 'your_health_client_id_here') || 
+                       (providerClientId === 'your_provider_client_id_here') || 
+                       code.startsWith('mock-');
 
     let providerProfileData = null;
 
@@ -51,8 +59,8 @@ export async function POST(request) {
       tokenParams.set('grant_type', 'authorization_code');
       tokenParams.set('code', code);
       tokenParams.set('redirect_uri', redirectUri);
-      tokenParams.set('client_id', clientId);
-      tokenParams.set('client_secret', clientSecret);
+      tokenParams.set('client_id', healthClientId);
+      tokenParams.set('client_secret', healthClientSecret);
 
       console.log('Exchanging authorization code with Health ID at:', tokenUrl);
       const healthIdTokenRes = await fetch(tokenUrl, {
@@ -85,8 +93,8 @@ export async function POST(request) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          client_id: clientId,
-          secret_key: clientSecret,
+          client_id: providerClientId,
+          secret_key: providerClientSecret,
           token_by: 'Health ID',
           token: healthIdAccessToken,
         }),
@@ -117,8 +125,8 @@ export async function POST(request) {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${providerAccessToken}`,
-          'client-id': clientId,
-          'secret-key': clientSecret,
+          'client-id': providerClientId,
+          'secret-key': providerClientSecret,
         },
       });
 
