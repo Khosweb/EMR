@@ -181,30 +181,47 @@ export async function POST(request) {
 
     console.log(`Lookup provider in DB: ID=${providerId}, License=${licenseId}, Name=${nameTh}`);
 
-    // Query local HOSxP database to find matching user in opduser or opduser_web
-    const dbSql = `
-      SELECT loginname, name, doctorcode, groupname, department
-      FROM opduser
-      WHERE (doctorcode = ? OR doctorcode = ? OR name = ?) 
-        AND account_disable <> 'Y'
-      UNION
-      SELECT loginname, name, doctorcode, groupname, department
-      FROM opduser_web 
-      WHERE (doctorcode = ? OR doctorcode = ? OR name = ?) 
-        AND account_disable <> 'Y'
-      LIMIT 1
-    `;
+    const conditions = [];
+    const params = [];
 
-    const lookupParams = [licenseId, providerId, nameTh, licenseId, providerId, nameTh];
+    if (licenseId && licenseId.trim() !== '') {
+      conditions.push('doctorcode = ?');
+      params.push(licenseId.trim());
+    }
+    if (providerId && providerId.trim() !== '') {
+      conditions.push('doctorcode = ?');
+      params.push(providerId.trim());
+    }
+    if (nameTh && nameTh.trim() !== '') {
+      conditions.push('name = ?');
+      params.push(nameTh.trim());
+    }
+
     let dbUser = null;
 
-    try {
-      const dbResults = await query(dbSql, lookupParams);
-      if (dbResults && dbResults.length > 0) {
-        dbUser = dbResults[0];
+    if (conditions.length > 0) {
+      const whereClause = `(${conditions.join(' OR ')}) AND account_disable <> 'Y'`;
+      const dbSql = `
+        SELECT loginname, name, doctorcode, groupname, department
+        FROM opduser
+        WHERE ${whereClause}
+        UNION
+        SELECT loginname, name, doctorcode, groupname, department
+        FROM opduser_web 
+        WHERE ${whereClause}
+        LIMIT 1
+      `;
+      
+      const unionParams = [...params, ...params];
+
+      try {
+        const dbResults = await query(dbSql, unionParams);
+        if (dbResults && dbResults.length > 0) {
+          dbUser = dbResults[0];
+        }
+      } catch (dbErr) {
+        console.error('Database lookup failed, falling back to profile details:', dbErr);
       }
-    } catch (dbErr) {
-      console.error('Database lookup failed, falling back to profile details:', dbErr);
     }
 
     // If user is not found in database, we require them to be registered in HOSxP to log in
