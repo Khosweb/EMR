@@ -237,6 +237,19 @@ export async function POST(request) {
     }
 
     const position = providerProfileData.organization?.[0]?.position || 'แพทย์';
+    
+    // Check for allowed positions
+    const allowedPositions = ['แพทย์', 'พยาบาลวิชาชีพ', 'นักวิชาการคอมพิวเตอร์', 'เภสัชกร'];
+    if (!allowedPositions.includes(position)) {
+      return NextResponse.json(
+        { 
+          error: 'Unauthorized', 
+          message: `ระบบจำกัดการเข้าถึงเฉพาะ แพทย์, พยาบาลวิชาชีพ, นักวิชาการคอมพิวเตอร์ และเภสัชกร เท่านั้น (ตำแหน่งของคุณคือ: ${position})` 
+        },
+        { status: 403 }
+      );
+    }
+
     const hname = providerProfileData.organization?.[0]?.hname_th || 'กระทรวงสาธารณสุข';
 
     return NextResponse.json({

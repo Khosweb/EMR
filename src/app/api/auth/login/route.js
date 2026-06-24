@@ -49,6 +49,22 @@ export async function POST(request) {
 
     const user = results[0];
 
+    // Check for allowed groupname/position
+    const allowedGroups = ['แพทย์', 'พยาบาลวิชาชีพ', 'นักวิชาการคอมพิวเตอร์', 'เภสัชกร'];
+    // Allow if their groupname matches exactly, or if it contains the position name.
+    // HOSxP groupnames might not be strictly matching MOPH positions, but we enforce the constraint here.
+    const isAllowed = allowedGroups.some(group => user.groupname?.includes(group) || user.department?.includes(group));
+    
+    if (!isAllowed) {
+      return NextResponse.json(
+        { 
+          error: 'Unauthorized', 
+          message: `ระบบจำกัดการเข้าถึงเฉพาะ แพทย์, พยาบาลวิชาชีพ, นักวิชาการคอมพิวเตอร์ และเภสัชกร เท่านั้น (แผนก/สิทธิของคุณคือ: ${user.groupname || user.department})` 
+        },
+        { status: 403 }
+      );
+    }
+
     // Recommendation: In a production app, issue an HttpOnly session cookie containing a secure JWT.
     // We return user session details for frontend storage/state.
     return NextResponse.json({
