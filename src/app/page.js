@@ -256,8 +256,12 @@ export default function App() {
   };
 
   async function handleSearchPatient(hnToSearch, preferredVn) {
-    const hn = hnToSearch || searchHn;
-    if (!hn.trim()) return;
+    const rawHn = hnToSearch || searchHn;
+    if (!rawHn.trim()) return;
+
+    // Remove leading zeros (e.g. 000063108 -> 63108)
+    const hn = rawHn.trim().replace(/^0+/, '') || '0';
+    setSearchHn(hn);
 
     setSearchLoading(true);
     setSearchError('');
@@ -266,7 +270,7 @@ export default function App() {
     setSelectedVn('');
 
     try {
-      const res = await fetch(`/api/patients/${hn.trim()}`);
+      const res = await fetch(`/api/patients/${hn}`);
       const result = await res.json();
 
       if (!res.ok) {
@@ -274,7 +278,7 @@ export default function App() {
       }
 
       setPatientData(result.data);
-      localStorage.setItem('emr_hn', hn.trim());
+      localStorage.setItem('emr_hn', hn);
       
       const visits = result.data.visits || [];
       if (visits.length > 0) {
@@ -286,16 +290,16 @@ export default function App() {
     } catch (err) {
       // Fallback: หากดึงผ่าน API ล้มเหลว ให้ดึงจาก Client-side mockData โดยตรง
       console.warn('Patient API offline, using client-side mock data fallback for HN:', hn);
-      const mockPatient = clientMockPatients[hn.trim()] || clientMockPatients['1234567'];
+      const mockPatient = clientMockPatients[hn] || clientMockPatients['1234567'];
       if (mockPatient) {
         const patientCopy = { ...mockPatient.patient };
-        if (!clientMockPatients[hn.trim()]) {
-          patientCopy.hn = hn.trim();
+        if (!clientMockPatients[hn]) {
+          patientCopy.hn = hn;
           patientCopy.fname = `${patientCopy.fname} (Demo)`;
         }
         const finalMock = { ...mockPatient, patient: patientCopy, isMock: true };
         setPatientData(finalMock);
-        localStorage.setItem('emr_hn', hn.trim());
+        localStorage.setItem('emr_hn', hn);
         
         const visits = finalMock.visits || [];
         if (visits.length > 0) {

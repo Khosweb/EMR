@@ -4,11 +4,13 @@ import { query } from '@/lib/db';
 export async function GET(request, { params }) {
   try {
     const resolvedParams = await params;
-    const { hn } = resolvedParams;
+    const rawHn = resolvedParams.hn;
 
-    if (!hn) {
+    if (!rawHn) {
       return NextResponse.json({ error: 'HN is required' }, { status: 400 });
     }
+
+    const hn = rawHn.replace(/^0+/, '') || '0';
 
     const { searchParams } = new URL(request.url);
     const limit = parseInt(searchParams.get('limit') || '50', 10);
