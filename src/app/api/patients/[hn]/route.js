@@ -10,7 +10,7 @@ export async function GET(request, { params }) {
       return NextResponse.json({ error: 'HN is required' }, { status: 400 });
     }
 
-    const hn = rawHn.replace(/^0+/, '') || '0';
+    const hn = rawHn.padStart(9, '0');
 
     // 1. Fetch patient basic info
     const patientSql = `

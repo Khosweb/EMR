@@ -10,7 +10,7 @@ export async function GET(request, { params }) {
       return NextResponse.json({ error: 'HN is required' }, { status: 400 });
     }
 
-    const hn = rawHn.replace(/^0+/, '') || '0';
+    const hn = rawHn.padStart(9, '0');
 
     const { searchParams } = new URL(request.url);
     const limit = parseInt(searchParams.get('limit') || '50', 10);

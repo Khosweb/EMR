@@ -47,8 +47,8 @@ const StethoscopeIcon = () => (
 
 // Inline Mock Medical Records for client-side offline fallback
 const clientMockPatients = {
-  '1234567': {
-    patient: { hn: '1234567', pname: 'นาย', fname: 'สมชาย', lname: 'ดีใจ', cid: '1-1002-00345-67-8', sex: '1', birthday: '1981-05-15', age: 45 },
+  '001234567': {
+    patient: { hn: '001234567', pname: 'นาย', fname: 'สมชาย', lname: 'ดีใจ', cid: '1-1002-00345-67-8', sex: '1', birthday: '1981-05-15', age: 45 },
     allergies: [{ report_date: '2024-03-10', agent: 'Penicillin G', symptom: 'Maculopapular rash (ผื่นคันแดงตัว)' }],
     chronics: [{ clinic_name: 'Hypertension Clinic (คลินิกความดันโลหิตสูง)' }, { clinic_name: 'Dyslipidemia Clinic (คลินิกไขมันในเลือดสูง)' }],
     visits: [
@@ -58,8 +58,8 @@ const clientMockPatients = {
       { vn: '6712050012', an: null, vstdate: '2025-12-05', vsttime: '08:00:00', department: 'OPD GENERAL' }
     ]
   },
-  '1020304': {
-    patient: { hn: '1020304', pname: 'นาง', fname: 'วัลลภา', lname: 'ชูชีพ', cid: '3-1009-00998-11-2', sex: '2', birthday: '1964-08-12', age: 62 },
+  '001020304': {
+    patient: { hn: '001020304', pname: 'นาง', fname: 'วัลลภา', lname: 'ชูชีพ', cid: '3-1009-00998-11-2', sex: '2', birthday: '1964-08-12', age: 62 },
     allergies: [{ report_date: '2021-11-05', agent: 'Co-trimoxazole (Bactrim)', symptom: 'Stevens-Johnson syndrome (แพ้ผิวหนังลอกรุนแรง)' }],
     chronics: [{ clinic_name: 'Diabetes Mellitus Clinic (คลินิกเบาหวาน)' }, { clinic_name: 'Chronic Kidney Disease Clinic (คลินิกโรคไตเรื้อรัง Stage 3)' }],
     visits: [
@@ -259,8 +259,8 @@ export default function App() {
     const rawHn = hnToSearch || searchHn;
     if (!rawHn.trim()) return;
 
-    // Remove leading zeros (e.g. 000063108 -> 63108)
-    const hn = rawHn.trim().replace(/^0+/, '') || '0';
+    // Pad with leading zeros to 9 digits (e.g. 63108 -> 000063108)
+    const hn = rawHn.trim().padStart(9, '0');
     setSearchHn(hn);
 
     setSearchLoading(true);
@@ -290,7 +290,7 @@ export default function App() {
     } catch (err) {
       // Fallback: หากดึงผ่าน API ล้มเหลว ให้ดึงจาก Client-side mockData โดยตรง
       console.warn('Patient API offline, using client-side mock data fallback for HN:', hn);
-      const mockPatient = clientMockPatients[hn] || clientMockPatients['1234567'];
+      const mockPatient = clientMockPatients[hn] || clientMockPatients['001234567'];
       if (mockPatient) {
         const patientCopy = { ...mockPatient.patient };
         if (!clientMockPatients[hn]) {
@@ -511,7 +511,7 @@ export default function App() {
             <div className="relative flex-1">
               <input
                 type="text"
-                placeholder="ค้นหา HN (เช่น 1234567)"
+                placeholder="ค้นหา HN (เช่น 001234567)"
                 className="w-full bg-white border border-rose-200/50 rounded-xl pl-11 pr-3 py-2 text-base text-zinc-800 placeholder-rose-300 focus:outline-none focus:ring-4 focus:ring-rose-500/10 focus:border-rose-400 transition duration-200 font-medium"
                 value={searchHn}
                 onChange={(e) => setSearchHn(e.target.value)}
@@ -566,8 +566,8 @@ export default function App() {
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col md:flex-row p-6 gap-6 overflow-hidden">
         {searchError && (
-          <div className="w-full bg-rose-100 border border-rose-200 text-pink-600 text-base p-4 rounded-xl text-center self-start shadow-sm font-semibold">
-            ⚠️ {searchError} (กรุณาลองรหัส HN 1234567 หรือ 1020304)
+          <div className="bg-red-50 text-red-600 p-4 rounded-xl border border-red-100 flex items-center gap-3 text-sm animate-in fade-in">
+            ⚠️ {searchError} (กรุณาลองรหัส HN 001234567 หรือ 001020304)
           </div>
         )}
 
