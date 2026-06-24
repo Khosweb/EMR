@@ -416,7 +416,7 @@ export default function App() {
               />
             </div>
             <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-rose-900 via-rose-800 to-pink-700 bg-clip-text text-transparent mt-2">
-              HOSxP EMR Portal
+              KHOS EMR Portal
             </h1>
             <p className="text-sm text-pink-600/80 font-bold tracking-wide uppercase">
               ระบบสืบค้นเวชระเบียนผู้ป่วยอิเล็กทรอนิกส์ (EMR)
@@ -504,7 +504,7 @@ export default function App() {
             <div className="flex items-center gap-2.5">
               <div className="bg-white p-1 rounded-xl shadow-sm border border-white/10 w-10 h-10 flex items-center justify-center overflow-hidden">
                 <img
-                  src="/logo.png"
+                  src="/logo-khh.png"
                   alt="Logo"
                   className="w-full h-full object-contain"
                 />
